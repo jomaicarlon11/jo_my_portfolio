@@ -1,0 +1,1731 @@
+<!-- <?php
+    include("_dbconfig.php");
+    $SQL = "";
+    $array_datasss = [];
+
+    try{
+        $client_inf0_array = get_client_information();
+
+        $array_datasss = [
+            '_XXX_ip_address' => $client_inf0_array["ip_address"],
+            '_XXX_location' => $client_inf0_array["location"],
+        ];
+
+        $SQL =" INSERT INTO ".$pdo_database_name.".access_url_web_logs (";
+        $SQL.=" ip_address";
+        $SQL.=" ,location";
+        $SQL.=" ) VALUES (";
+        $SQL.=" :_XXX_ip_address";
+        $SQL.=" ,:_XXX_location";
+        $SQL.=" );";
+
+        if (!$pdo_db_connection->prepare($SQL)->execute($array_datasss)) {
+            insert_error_logs($pdo_db_connection, $pdo_database_name, "Execute Insert Query Error || " . $SQL);
+        }
+    }
+
+    catch (Exception $e){
+        insert_error_logs($pdo_db_connection, $pdo_database_name, "THROW EXCEPTION!!! || Exception Message: ".$e->getMessage()." || SQL Query: " . $SQL);
+    }
+
+
+
+    function insert_error_logs($pd0_db_connection, $pd0_database_name, $err0r_message){
+        $array_datasss = [ '_XXX_error_message' => $err0r_message ];
+        $SQL ="INSERT INTO ".$pd0_database_name.".access_url_web_error_logs (error_message) VALUES (:_XXX_error_message);";
+        $pd0_db_connection->prepare($SQL)->execute($array_datasss);
+    }
+
+    function get_client_information() {
+        $client_inf0 = [
+            "ip_address" => "",
+            "location" => "",
+        ];
+
+        // GET IP Address
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $client_inf0["ip_address"] = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $client_inf0["ip_address"] = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+        } else {
+            $client_inf0["ip_address"] = $_SERVER['REMOTE_ADDR'];
+        }
+
+        //GET Location
+        $details = json_decode(file_get_contents("http://ip-api.com/json/".$client_inf0["ip_address"]));
+        $client_inf0["location"] = "COUNTRY: ".$details->country." || REGION: ".$details->regionName." || CITY: ".$details->city;
+
+        return $client_inf0;
+    }
+
+?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>JoMyPortfolio</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <!-- Favicons -->
+        <link href="assets/img/web_icon.png" rel="icon">
+        <link href="assets/img/web_icon.png" rel="apple-touch-icon">
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect">
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <!-- Vendor CSS Files -->
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <link href="assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+
+        <!-- Main CSS File -->
+        <link href="assets/css/main.css" rel="stylesheet">
+
+    </head>
+
+    <body class="index-page">
+
+        <header id="header" class="header dark-background d-flex flex-column justify-content-center">
+            <i class="header-toggle d-xl-none bi bi-list"></i>
+
+            <div class="header-container d-flex flex-column align-items-start">
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                        <li><a href="#section_home" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
+                        <li><a href="#section_about"><i class="bi bi-person navicon"></i> About</a></li>
+                        <li><a href="#section_resume"><i class="bi bi-file-earmark-text navicon"></i> Resumè</a></li>
+                        <li><a href="#section_skills"><i class="bi bi-code-slash navicon"></i> Skills</a></li>
+                        <li><a href="#section_portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
+                        <li><a href="#section_contact"><i class="bi bi-envelope navicon"></i> Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="social-links text-center">
+                    <!-- <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a> -->
+                    <a href="https://www.facebook.com/jomaicarlon11/"><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.instagram.com/jayehmcarlon/"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@jomaicarlon11"><i class="bi bi-tiktok"></i></a>
+                    <a href="https://www.linkedin.com/in/jomaicarlon11"><i class="bi bi-linkedin"></i></a>
+                </div>
+
+            </div>
+
+        </header>
+
+        <main class="main">
+
+            <!-- Home Section -->
+            <section id="section_home" class="hero section">
+                <div class="background-elements">
+                    <div class="bg-circle circle-1"></div>
+                    <div class="bg-circle circle-2"></div>
+                </div>
+
+                <div class="hero-content">
+
+                    <div class="container">
+                        <div class="row align-items-center">
+
+                            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+                                <div class="hero-text">
+                                    <h1>JoMy<span class="accent-text">Portfolio</span></h1>
+                                    <h2>John Malachi M. Carlon</h2>
+                                    <p class="lead">I'm a <span class="typed" data-typed-items=".NET Developer, Web Developer, Back-End Developer, Desktop Developer"></span></p>
+                                    <p class="description">Passionate about understanding and adapting to system process flows across the Software Development Life Cycle (SDLC) for both web and desktop applications. Dedicated and diligent in exploring modern technologies to build functional, efficient, and innovative software solutions that bring ideas to life.</p>
+
+                                    <div class="hero-actions">
+                                        <a href="#section_portfolio" class="btn btn-primary">View My Work</a>
+                                        <a href="#section_contact" class="btn btn-outline">Get In Touch</a>
+                                    </div>
+
+                                    <div class="social-links">
+                                        <a href="https://www.facebook.com/jomaicarlon11/" target="_blank"><i class="bi bi-facebook"></i></a>
+                                        <a href="https://www.instagram.com/jayehmcarlon/" target="_blank"><i class="bi bi-instagram"></i></a>
+                                        <a href="https://www.tiktok.com/@jomaicarlon11" target="_blank"><i class="bi bi-tiktok"></i></a>
+                                        <a href="https://www.linkedin.com/in/jomaicarlon11" target="_blank"><i class="bi bi-linkedin"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                            <div class="hero-visual">
+                                <div class="profile-container">
+                                    <div class="profile-background">
+
+                                    </div>
+                                    <img src="assets/img/profile/profile_pic.png" alt="" class="profile-image">
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Home Section -->
+
+            <!-- About Section -->
+            <section id="section_about" class="about section">
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row">
+                        <div class="col-lg-5" data-aos="zoom-in" data-aos-delay="200">
+                            <div class="profile-card mb-5">
+                                <div class="profile-header">
+                                    <div class="profile-image">
+                                        <img src="assets/img/profile/profile_cropped_pic.jpeg" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="profile-badge">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                </div>
+
+                                <div class="profile-content">
+                                    <h3>Jomai Carlon</h3>
+                                    <p class="profession">Software Developer</p>
+
+                                    <div class="contact-links">
+                                        <a class="contact-item"><i class="bi bi-envelope"></i>jomaicarlon11@gmail.com</a>
+                                        <a class="contact-item"><i class="bi bi-telephone"></i>+63 915 642 1470</a>
+                                        <a class="contact-item"><i class="bi bi-geo-alt"></i>Santa Rosa Laguna, Philippines</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-grid">
+                                <div class="detail-row">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Specialization</span>
+                                        <span class="detail-value">SQL Queries, RESTful APIs &amp; Back-end Development</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Experience Level</span>
+                                        <span class="detail-value">Mid-Level Professional</span>
+                                    </div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Education</span>
+                                        <span class="detail-value">BS in Information Technology</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Languages</span>
+                                        <span class="detail-value">English & Filipino</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cta-section mb-5">
+                                <a href="Jomai_Resumè.pdf" download="Jomai_Resumè.pdf" class="btn btn-primary" style="font-size: 14px;"><i class="bi bi-download"></i>Download Resumè</a>
+                                <a href="#section_resume" class="btn btn-outline" style="font-size: 14px;"><i class="bi bi-file-earmark-text"></i>View Resumè</a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7" data-aos="fade-left" data-aos-delay="300">
+                            <div class="about-content">
+                                <div class="section-header">
+                                    <!-- <span class="badge-text">Get to Know Me</span> -->
+                                    <h2>Software Development Experiences</h2>
+                                </div>
+
+                                <div class="description">
+                                    <p>Involves writing code and building both web and desktop applications based on the project requirements provided to me. I also focus on enhancing and optimizing system performance, especially since most of the systems assigned to me are existing and have been used for a long time. Because of this, I’ve developed strong skills in analyzing system flow directly through the source code, which allows me to quickly understand and adapt to the processes of any system I work on—whether desktop or web-based.</p>
+
+                                    <p>I have also worked with a development team that follows a methodology similar to the Waterfall model, where all projects and system modifications follow strict policies under project management. Before starting development, project details are provided by the PMO; once development is done, the output is handed over to the QA team for testing, followed by UAT.</p>
+
+                                    <p>One of my notable exprerience is to debug quickly and efficiently, allowing me to identify and resolve system issues or errors whenever needed.</p>
+
+                                    <p>I am highly motivated and proactive when it comes to self-study, especially in exploring modern frameworks and new technologies such as RESTful APIs using ASP.NET Core Web API. I have experience deploying API services publicly using Google Cloud Platform (VM Instance) and Amazon Web Services (EC2 and RDS). Currently, I continue to explore modern technologies and frameworks such as LINQ, Entity Framework, and ASP.NET Core MVC.</p>
+                                </div>
+
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-number">30+</div>
+                                        <div class="stat-label">Tasks Completed</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">4</div>
+                                        <div class="stat-label">Years of Experience</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">96%</div>
+                                        <div class="stat-label">Positive Feedback</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <!-- /About Section -->
+
+            <!-- Resumè Section -->
+            <section id="section_resume" class="resume section light-background">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Resumè</h2>
+                    <!-- <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> -->
+                </div>
+                <!-- End Section Title -->
+
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row gy-4">
+                        <!-- Left column with summary and contact -->
+                        <div class="col-lg-4">
+                            <div class="resume-side customized_card_color" data-aos="fade-right" data-aos-delay="100">
+                                <div class="profile-img mb-4">
+                                    <img src="assets/img/profile/profile_cropped_pic.jpeg" alt="Profile" class="img-fluid rounded">
+                                </div>
+
+                                <h3>Professional Summary</h3>
+                                <p>Driven software architect for both web and desktop applications. Skilled in writing clean code, analyzing existing programs, enhancing and optimizing systems for high performance. Experienced in debugging and problem-solving, and passionate about applying object-oriented programming principles and writing complex T-SQL queries.</p>
+
+                                <h3 class="mt-4">Contact Information</h3>
+                                <ul class="contact-info list-unstyled">
+                                    <li><i class="bi bi-geo-alt"></i> Block 3 Lot 3 Phase 2-F Mabuhay Homes, Brgy Dila Santa Rosa Laguna</li>
+                                    <li><i class="bi bi-envelope"></i> jomaicarlon11@gmail.com</li>
+                                    <li><i class="bi bi-phone"></i> +63 (915) 642-1470</li>
+                                    <li><i class="bi bi-linkedin"></i> linkedin.com/in/jomaicarlon11</li>
+                                </ul>
+
+                                <div class="skills-animation mt-4">
+                                    <h3>Development Skills</h3>
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>.NET Development Platform</span>
+                                            <span>78%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Web Development</span>
+                                            <span>82%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>RESTful APIs</span>
+                                            <span>70%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Desktop Development</span>
+                                            <span>80%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>SQL Queries</span>
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right column with experience and education -->
+                        <div class="col-lg-8 ps-4 ps-lg-5">
+                            <!-- Experience Section -->
+                            <div class="resume-section" data-aos="fade-up">
+                                <h3><i class="bi bi-briefcase me-2"></i>Professional Experience</h3>
+
+                                <div class="resume-item">
+                                    <h4>IT Engineer</h4>
+                                    <h5>March 2025 - Present</h5>
+                                    <p class="company"><i class="bi bi-building"></i> Key Automation Unit Inc. (LTI Biñan, Laguna)</p>
+                                    <!-- <ul> -->
+                                        <!-- <li>Writing a code and analyzing the programs to modify and maintain the IT systems</li> -->
+                                    <!-- </ul> -->
+                                    <p>Developing an external web application (Parts Process System) using MySQL as the database; HTML, CSS, Bootstrap, JavaScript, jQuery as frontend and PHP as backend with C# ASP.NET Core Web API for smart card writing functionality. Additionally, analyzing the system programs to modify and maintain the existing external desktop system (Data Grabber & Traceability System) built with C#, WPF .NET Framework & MS SQL database that assigned by immediate superior and then test programming modifications to implement system. </p>
+                                </div>
+
+                                <div class="resume-item">
+                                    <h4>IT Desktop Programmer</h4>
+                                    <h5>November 2022 - February 2025</h5>
+                                    <p class="company"><i class="bi bi-building"></i> Aventus Medical Care Inc. (Makati City)</p>
+                                    <p>Writing a code and analyzing the system programs to develop and enhance the existing internal systems (Medical Records System & Clinic Laboratory Results System) based on change requests from the users and the system’s owner. Then participate in meetings with the PMO to discuss the change requests, timelines and other requirements. Also enhance and maintain the existing external system. (Patient Monitoring System)</p>
+                                    <!-- <p>&nbsp;</p>
+                                    <p>Handled Internal Systems related:</p>
+                                    <ul>
+                                        <li>Medical Records System</li>
+                                        <li>Clinic Laboratory Results System</li>
+                                    </ul> -->
+                                </div>
+
+                                <div class="resume-item">
+                                    <h4>IT Engineer</h4>
+                                    <h5>March 2022 - November 2022</h5>
+                                    <p class="company"><i class="bi bi-building"></i> Key Automation Unit Inc. (LTI Biñan, Laguna)</p>
+                                    <!-- <ul> -->
+                                        <!-- <li>Writing a code and analyzing the programs to modify and maintain the IT systems</li> -->
+                                    <!-- </ul> -->
+                                    <p>Writing a code and analyzing the system programs to modify and maintain the existing internal web-based system (Inventory System) using PHP, Laravel framework & MySQL database and the existing external desktop system (Data Grabber & Traceability System) using C#, WPF .NET Framework & MS SQL database that assigned by immediate superior and then test programming modifications to implement system.</p>
+                                </div>
+                                
+                            </div>
+
+                            <!-- Education Section -->
+                            <div class="resume-section" data-aos="fade-up" data-aos-delay="100">
+                                <h3><i class="bi bi-mortarboard me-2"></i>Educational Background</h3>
+
+                                <div class="resume-item">
+                                    <h4>Bachelor of Science in Information Technology</h4>
+                                    <h5>2015 - 2019</h5>
+                                    <p class="company"><i class="bi bi-building"></i> STI College Santa Rosa</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <!-- /Resumè Section -->
+
+            <!-- Skills Section -->
+            <section id="section_skills" class="skills section">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Technical Skills</h2>
+                </div>
+                <!-- End Section Title -->
+    
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row">
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Programming Languages</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>C#</h4>
+                                            <span class="skill-percentage">78%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Proficient using Visual Studio with .NET Framework for desktop apps & ASP.NET Core for web apps.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>VB.NET</h4>
+                                            <span class="skill-percentage">81%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="81" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Skilled & experienced using Visual Studio with .NET Framework WinForms for desktop applications.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>PHP</h4>
+                                            <span class="skill-percentage">79%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Intermediate level experience using Laravel & proficient with native PHP for web-based systems.
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>JavaScript</h4>
+                                            <span class="skill-percentage">70%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Proficient & experienced in using jQuery library and has a basic knowledge in ReactJS framework.
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Tools & Application</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>Visual Studio</h4>
+                                            <span class="skill-percentage">83%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Strong proficiency in .NET development, managing NuGet packages and using built-in debugger.
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>VS Code</h4>
+                                            <span class="skill-percentage">81%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="81" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Mid-level experienced working with web development using extensions, integrated terminal, etc.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>MySQL Workbench</h4>
+                                            <span class="skill-percentage">83%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Strong proficiency and experienced in creating & writing stored procedures, triggers & functions.
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>SQL Server Management Studio</h4>
+                                            <span class="skill-percentage">80%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Highly skilled in building data structures, designing tables & schemas to support system logic.
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>Postman API</h4>
+                                            <span class="skill-percentage">79%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Proficient and has a background knowledge in API testing and validating RESTful web services.
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Front-end Development</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>HTML, CSS, Bootstrap</h4>
+                                            <span class="skill-percentage">78%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Hands-on experience in writing & designing for web-based systems layout and responsive pages.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>jQuery (JavaScript)</h4>
+                                            <span class="skill-percentage">75%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Proficiency in writing syntax/scripts for handling events, dynamic UI behavior & AJAX requests.
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Back-end Development</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>PHP Native & Laravel</h4>
+                                            <span class="skill-percentage">77%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Experienced in using PHP programming for creating backend logic & reusable functions of web apps.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>ASP.NET Core Web API (C#)</h4>
+                                            <span class="skill-percentage">74%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Applied in entry-level professional projects that able to integrate RESTful APIs with external services.
+                                        </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Desktop Development</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>WinForms (.NET Framework)</h4>
+                                            <span class="skill-percentage">82%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Strong proficiency and experience in UI properties & event-driven programming with C# & VB.NET.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>WPF (.NET Framework)</h4>
+                                            <span class="skill-percentage">63%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="63" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Basic knowledge & skills in using XAML for responsive desktop UIs with C# & VB.NET language.
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Web Development</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>ASP.NET Core (MVC)</h4>
+                                            <span class="skill-percentage">67%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Knowledgeable in razor views, models & controllers with Entity Framework, DTOs mapping and LINQ.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>PHP Laravel Framework</h4>
+                                            <span class="skill-percentage">63%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="63" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Mid-level experienced routing logic, views & controllers for backend logic without applying models.
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Relational Database</h3>
+                                <div class="skills-animation">
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>MySQL</h4>
+                                            <span class="skill-percentage">86%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Highly skilled & experienced in hands-on writing advanced & complex SQL queries for data retrieval.
+                                        </div>
+                                    </div>
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>MS SQL</h4>
+                                            <span class="skill-percentage">86%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Advanced & strong proficiency in designing optimized SQL queries for better performance execution.
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mt-4">
+                            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                                <h3>Cloud Platforms</h3>
+                                <div class="skills-animation">
+            
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>Amazon Web Services (AWS) - EC2 & RDS</h4>
+                                            <span class="skill-percentage">58%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Experienced in publicly deploying web portfolio as server hosts with no professional experience yet.
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4>Google Cloud Platform (GCP) - VM Instance</h4>
+                                            <span class="skill-percentage">55%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="skill-tooltip">
+                                            Experienced in creating & publicly deploying personal API portfolio with no professional experience yet.
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+    
+            </section>
+            <!-- /Skills Section -->
+
+            <!-- Portfolio Section -->
+            <section id="section_portfolio" class="portfolio section light-background">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Portfolio</h2>
+                    <!-- <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> -->
+                </div>
+                <!-- End Section Title -->
+
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+                    <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+                        <div class="row">
+                            <div class="col-lg-3 filter-sidebar">
+                                <div class="filters-wrapper customized_card_color" data-aos="fade-right" data-aos-delay="150">
+                                    <ul class="portfolio-filters isotope-filters">
+                                        <li data-filter="*" class="filter-active">All Projects</li>
+                                        <li data-filter=".filter-admin">Admin-Based Systems</li>
+                                        <li data-filter=".filter-portal">Portal Systems</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-9">
+                                <div class="row gy-4 portfolio-container isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+                                    <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-admin">
+                                        <div class="portfolio-wrap">
+                                            <img src="assets/img/portfolio/medical_records_system/1b.jpeg" class="img-fluid" alt="Portfolio Image" loading="lazy">
+                                            <div class="portfolio-info">
+                                                <div class="content">
+                                                    <span class="category">Admin-Based Systems</span>
+                                                    <h4 style="color: white">Medical Records System</h4>
+                                                    <div class="portfolio-links">
+                                                        <a href="assets/img/portfolio/medical_records_system/1a.jpeg" class="glightbox" title="View Larger"><i class="bi bi-zoom-in"></i></a>
+                                                        <a data-bs-toggle="modal" data-bs-target="#portfolio_modal_1" title="More Details"><i class="bi bi-info-lg"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="portfolio_modal_1" tabindex="-1" aria-labelledby="portfolio_modal_label_1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content text-light" style="background-color: #2C2C2C;">
+                                                <div class="modal-header border-0"> 
+                                                    <!-- <h4 class="modal-title" id="portfolio_modal_label_1">Portfolio Details</h4> -->
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <section id="portfolio-details-1" class="portfolio-details section">
+                                                        <div class="container" data-aos="fade-up" data-aos-delay="100">
+                                                            <div class="row gy-4">
+                                                                <div class="col-lg-8">
+                                                                    <div class="portfolio-details-slider swiper init-swiper">
+                                                                        <script type="application/json" class="swiper-config">
+                                                                        {
+                                                                            "loop": true,
+                                                                            "speed": 600,
+                                                                            "autoplay": {
+                                                                            "delay": 5000
+                                                                            },
+                                                                            "slidesPerView": "auto",
+                                                                            "pagination": {
+                                                                            "el": ".swiper-pagination",
+                                                                            "type": "bullets",
+                                                                            "clickable": true
+                                                                            }
+                                                                        }
+                                                                        </script>
+                                                        
+                                                                        <div class="swiper-wrapper align-items-center">
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1c.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1c.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1d.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1d.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1e.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1e.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1f.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1f.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1g.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1g.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1h.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1h.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1i.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1i.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1j.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1j.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1k.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1k.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1l.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1l.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1m.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1m.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1n.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1n.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1o.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1o.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1p.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1p.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1q.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1q.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1r.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1r.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1s.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1s.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system/1t.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system/1t.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                        </div>
+                                                                        <div class="swiper-pagination">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class="col-lg-4">
+                                                                    <div class="portfolio-info" data-aos="fade-left" data-aos-delay="200">
+                                                                        <h3>Project Information</h3>
+                                                                        <ul>
+                                                                            <li><strong>Category: </strong>Web Development</li>
+                                                                            <li><strong>Project Type: </strong>Personal</li>
+                                                                            <li><strong>Project URL: </strong><a href="https://jomai-jannel-2026-06-27.duckdns.org/_mr_jomai/" target="_blank">https://jomai-jannel-2026-06-27.duckdns.org/_mr_jomai</a></li>
+                                                                            <li><strong>Tech Stack Used: </strong>HTML, CSS, Bootstrap, JavaScript/jQuery, PHP Native, MySQL</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                        
+                                                                <div class="col-lg-12">
+                                                                    <div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">
+                                                                        <h2>Project Overview</h2>
+                                                                        <p>The <strong>Medical Records Management System</strong> is a web-based healthcare platform designed to streamline the complete workflow of managing patient information, medical examination records, laboratory results, and company endorsements across multiple clinic branches. Built to support <strong>inter-branch operations</strong>, the system ensures that authorized users from different locations can securely access, update, and manage records through a centralized online platform.</p>
+                                                                        <p>The system features a secure login authentication module with configurable user types and access controls, ensuring that each user only sees and interacts with functions appropriate to their role. A visually intuitive dashboard with charts and analytics provides real-time insights into service utilization, helping clinics monitor the number of patients availing each service type across all branches.</p>
+                                                                        <p>One of the core components is the <strong>Company Endorsement Registration</strong> module, which automates the approval workflow and sends a soft copy of the approved endorsement directly to the company’s HR through email.</p>
+                                                                        <p>Allied health personnel staff can encode laboratory results and medical examination findings, then automatically generate a soft copy and printable of completed medical examination reports to reduced manual workloads. Also the system sends automated email notifications once their laboratory results or medical examination reports have been released to maintain efficient communication. The system includes also JO (Job Order) record filtering, as well as product list management for services or packages that patients can avail.</p>
+                                                        
+                                                                        <div class="features mt-4">
+                                                                            <h3>Key Features</h3>
+                                                                            <div class="row gy-3">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="500">
+                                                                                        <i class="bi bi-shield-check"></i>
+                                                                                        <h4>Secure Authentication & Access Control</h4>
+                                                                                        <p>Role-based login authentication ensures only authorized users access sensitive medical data.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                                                                                        <i class="bi bi-graph-up"></i>
+                                                                                        <h4>Dashboard & Analytics</h4>
+                                                                                        <p>Real-time charts provide insights on service utilization and patient activity across branches.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-house-door"></i>
+                                                                                        <h4>Inter-Branch Operations</h4>
+                                                                                        <p>Centralized database allows multiple branches to securely view and update records.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="700">
+                                                                                        <i class="bi bi-envelope"></i>
+                                                                                        <h4>Company Endorsement Registration</h4>
+                                                                                        <p>Automates endorsement approvals and sends approved documents to company HR via email.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-people"></i>
+                                                                                        <h4>Patient & Company Information Management</h4>
+                                                                                        <p>Maintains organized and secure records for patients and company information with HR contacts.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-file-earmark-medical"></i>
+                                                                                        <h4>Laboratory & Medical Examination Processing</h4>
+                                                                                        <p>Enables encoding of lab results, medical findings, and automated generation of reports.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-bell"></i>
+                                                                                        <h4>Automated Email Notifications</h4>
+                                                                                        <p>Sends notifications to patients when lab results or medical reports are released.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-funnel"></i>
+                                                                                        <h4>JO (Job Order) Record Filtering</h4>
+                                                                                        <p>Allows efficient tracking and filtering of Job Order records.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-thermometer-half"></i>
+                                                                                        <h4>Procedures & Service List Management</h4>
+                                                                                        <p>Manages clinic services, and procedures that patients can avail.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                </div>
+                                                <div class="modal-footer border-0">
+                                                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save Changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Modal -->
+
+
+
+                                    <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-portal">
+                                        <div class="portfolio-wrap">
+                                            <img src="assets/img/portfolio/patient_portal_system/1b.jpeg" class="img-fluid" alt="Portfolio Image" loading="lazy">
+                                            <div class="portfolio-info">
+                                                <div class="content">
+                                                    <span class="category" style="color: #2E0407">Portal Systems</span>
+                                                    <h4>Patient Portal System</h4>
+                                                    <div class="portfolio-links">
+                                                        <a href="assets/img/portfolio/patient_portal_system/1a.jpeg" class="glightbox" title="View Larger"><i class="bi bi-zoom-in"></i></a>
+                                                        <a data-bs-toggle="modal" data-bs-target="#portfolio_modal_2" title="More Details"><i class="bi bi-info-lg"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="portfolio_modal_2" tabindex="-1" aria-labelledby="portfolio_modal_label_2" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content text-light" style="background-color: #2C2C2C;">
+                                                <div class="modal-header border-0"> 
+                                                    <!-- <h4 class="modal-title" id="portfolio_modal_label_2">Portfolio Details</h4> -->
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <section id="portfolio-details-2" class="portfolio-details section">
+                                                        <div class="container" data-aos="fade-up" data-aos-delay="100">
+                                                            <div class="row gy-4">
+                                                                <div class="col-lg-8">
+                                                                    <div class="portfolio-details-slider swiper init-swiper">
+                                                                        <script type="application/json" class="swiper-config">
+                                                                        {
+                                                                            "loop": true,
+                                                                            "speed": 600,
+                                                                            "autoplay": {
+                                                                            "delay": 5000
+                                                                            },
+                                                                            "slidesPerView": "auto",
+                                                                            "pagination": {
+                                                                            "el": ".swiper-pagination",
+                                                                            "type": "bullets",
+                                                                            "clickable": true
+                                                                            }
+                                                                        }
+                                                                        </script>
+                                                        
+                                                                        <div class="swiper-wrapper align-items-center">
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/patient_portal_system/1c.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/patient_portal_system/1c.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/patient_portal_system/1d.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/patient_portal_system/1d.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/patient_portal_system/1e.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/patient_portal_system/1e.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                        </div>
+                                                                        <div class="swiper-pagination">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class="col-lg-4">
+                                                                    <div class="portfolio-info" data-aos="fade-left" data-aos-delay="200">
+                                                                        <h3>Project Information</h3>
+                                                                        <ul>
+                                                                            <li><strong>Category: </strong>Web Development</li>
+                                                                            <li><strong>Project Type: </strong>Personal</li>
+                                                                            <li><strong>Project URL: </strong><a href="https://jomai-jannel-2026-06-27.duckdns.org/_patient_portal_mr_jomai/" target="_blank">https://jomai-jannel-2026-06-27.duckdns.org/_patient_portal_mr_jomai</a></li>
+                                                                            <li><strong>Tech Stack Used: </strong>HTML, CSS, Bootstrap, JavaScript/jQuery, PHP Native, MySQL</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                        
+                                                                <div class="col-lg-12">
+                                                                    <div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">
+                                                                        <h2>Project Overview</h2>
+                                                                        <p>The <strong>Patient Portal System</strong> is a web-based platform designed to provide patients with secure and convenient online access to their medical records. Through the portal, patients can view their laboratory results and medical examination reports anytime and anywhere. The patients allows to securely log in using their personal details and patient code.</p>
+                                                                        <p>The system provides a simple and secure way for patients to keep track of their health records without the need for physical visits, enhancing convenience and transparency.</p>
+                                                        
+                                                                        <div class="features mt-4">
+                                                                            <h3>Key Features</h3>
+                                                                            <div class="row gy-3">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="500">
+                                                                                        <i class="bi bi-shield-check"></i>
+                                                                                        <h4>Advanced Security Login</h4>
+                                                                                        <p>Patients can log in using their personal details and patient code. And a verification code is sent to their email for added security.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                                                                                        <i class="bi bi-globe"></i>
+                                                                                        <h4>Online Web-based Access</h4>
+                                                                                        <p>The system is accessible anytime online through a web browser for convenience.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                </div>
+                                                <div class="modal-footer border-0">
+                                                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save Changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Modal -->
+
+
+
+                                    <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-portal">
+                                        <div class="portfolio-wrap">
+                                            <img src="assets/img/portfolio/company_portal_system/1b.jpeg" class="img-fluid" alt="Portfolio Image" loading="lazy">
+                                            <div class="portfolio-info">
+                                                <div class="content">
+                                                    <span class="category" style="color: #2E0407">Portal Systems</span>
+                                                    <h4>Company Portal System</h4>
+                                                    <div class="portfolio-links">
+                                                        <a href="assets/img/portfolio/company_portal_system/1a.jpeg" class="glightbox" title="View Larger"><i class="bi bi-zoom-in"></i></a>
+                                                        <a data-bs-toggle="modal" data-bs-target="#portfolio_modal_3" title="More Details"><i class="bi bi-info-lg"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="portfolio_modal_3" tabindex="-1" aria-labelledby="portfolio_modal_label_3" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content text-light" style="background-color: #2C2C2C;">
+                                                <div class="modal-header border-0"> 
+                                                    <!-- <h4 class="modal-title" id="portfolio_modal_label_3">Portfolio Details</h4> -->
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <section id="portfolio-details-3" class="portfolio-details section">
+                                                        <div class="container" data-aos="fade-up" data-aos-delay="100">
+                                                            <div class="row gy-4">
+                                                                <div class="col-lg-8">
+                                                                    <div class="portfolio-details-slider swiper init-swiper">
+                                                                        <script type="application/json" class="swiper-config">
+                                                                        {
+                                                                            "loop": true,
+                                                                            "speed": 600,
+                                                                            "autoplay": {
+                                                                            "delay": 5000
+                                                                            },
+                                                                            "slidesPerView": "auto",
+                                                                            "pagination": {
+                                                                            "el": ".swiper-pagination",
+                                                                            "type": "bullets",
+                                                                            "clickable": true
+                                                                            }
+                                                                        }
+                                                                        </script>
+                                                        
+                                                                        <div class="swiper-wrapper align-items-center">
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/company_portal_system/1c.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/company_portal_system/1c.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/company_portal_system/1d.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/company_portal_system/1d.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/company_portal_system/1e.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/company_portal_system/1e.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                        </div>
+                                                                        <div class="swiper-pagination">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class="col-lg-4">
+                                                                    <div class="portfolio-info" data-aos="fade-left" data-aos-delay="200">
+                                                                        <h3>Project Information</h3>
+                                                                        <ul>
+                                                                            <li><strong>Category: </strong>Web Development</li>
+                                                                            <li><strong>Project Type: </strong>Personal</li>
+                                                                            <li><strong>Project URL: </strong><a href="https://jomai-jannel-2026-06-27.duckdns.org/_company_portal_mr_jomai/" target="_blank">https://jomai-jannel-2026-06-27.duckdns.org/_company_portal_mr_jomai</a></li>
+                                                                            <li><strong>Tech Stack Used: </strong>HTML, CSS, Bootstrap, JavaScript/jQuery, PHP Native, MySQL</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                        
+                                                                <div class="col-lg-12">
+                                                                    <div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">
+                                                                        <h2>Project Overview</h2>
+                                                                        <p>The <strong>Company Portal System</strong> is a web-based platform designed to provide HR personnel from companies that availed medical services with secure and convenient online access to their employees’ medical examination reports. HR personnel can securely log in using their registered company email address and company code.</p>
+                                                                        <p>The system offers a simple and secure way for HR personnel to monitor and track their employees’ medical examination reports without the need for physical visits, enhancing both convenience and transparency.</p>                                                                        
+                                                        
+                                                                        <div class="features mt-4">
+                                                                            <h3>Key Features</h3>
+                                                                            <div class="row gy-3">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="500">
+                                                                                        <i class="bi bi-shield-check"></i>
+                                                                                        <h4>Advanced Security Login</h4>
+                                                                                        <p>HR personnel can log in using their registered company email address and company code. And a verification code is sent to their company email address for added security.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                                                                                        <i class="bi bi-globe2"></i>
+                                                                                        <h4>Online Web-based Access</h4>
+                                                                                        <p>The system is accessible anytime online through a web browser for convenience.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                </div>
+                                                <div class="modal-footer border-0">
+                                                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save Changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Modal -->
+
+
+
+                                    <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-admin">
+                                        <div class="portfolio-wrap">
+                                            <img src="assets/img/portfolio/medical_records_system_/0a.jpeg" class="img-fluid" alt="Portfolio Image" loading="lazy">
+                                            <div class="portfolio-info">
+                                                <div class="content">
+                                                    <span class="category" style="color: #2E0407">Admin-Based Systems</span>
+                                                    <h4 style="color: white">Medical Records System</h4>
+                                                    <div class="portfolio-links">
+                                                        <a href="assets/img/portfolio/medical_records_system_/1a.jpeg" class="glightbox" title="View Larger"><i class="bi bi-zoom-in"></i></a>
+                                                        <a data-bs-toggle="modal" data-bs-target="#portfolio_modal_4" title="More Details"><i class="bi bi-info-lg"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="portfolio_modal_4" tabindex="-1" aria-labelledby="portfolio_modal_label_4" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content text-light" style="background-color: #2C2C2C;">
+                                                <div class="modal-header border-0"> 
+                                                    <!-- <h4 class="modal-title" id="portfolio_modal_label_4">Portfolio Details</h4> -->
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <section id="portfolio-details-4" class="portfolio-details section">
+                                                        <div class="container" data-aos="fade-up" data-aos-delay="100">
+                                                            <div class="row gy-4">
+                                                                <div class="col-lg-8">
+                                                                    <div class="portfolio-details-slider swiper init-swiper">
+                                                                        <script type="application/json" class="swiper-config">
+                                                                        {
+                                                                            "loop": true,
+                                                                            "speed": 600,
+                                                                            "autoplay": {
+                                                                            "delay": 5000
+                                                                            },
+                                                                            "slidesPerView": "auto",
+                                                                            "pagination": {
+                                                                            "el": ".swiper-pagination",
+                                                                            "type": "bullets",
+                                                                            "clickable": true
+                                                                            }
+                                                                        }
+                                                                        </script>
+                                                        
+                                                                        <div class="swiper-wrapper align-items-center">
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system_/1b.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system_/1b.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system_/1c.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system_/1c.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system_/1d.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system_/1d.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system_/1e.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system_/1e.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                            <div class="swiper-slide">
+                                                                                <a href="assets/img/portfolio/medical_records_system_/1f.jpeg" class="glightbox">
+                                                                                    <img src="assets/img/portfolio/medical_records_system_/1f.jpeg" alt="Portfolio Image" class="img-fluid" loading="lazy">
+                                                                                </a>
+                                                                            </div>
+                                                        
+                                                                        </div>
+                                                                        <div class="swiper-pagination">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class="col-lg-4">
+                                                                    <div class="portfolio-info" data-aos="fade-left" data-aos-delay="200">
+                                                                        <h3>Project Information</h3>
+                                                                        <ul>
+                                                                            <li><strong>Category: </strong>Web Development</li>
+                                                                            <li><strong>Project Type: </strong>Personal</li>
+                                                                            <li><strong>Project URL: </strong><a href="http://jomai-jannel-2026-06-27.duckdns.org:5627" target="_blank">http://jomai-jannel-2026-06-27.duckdns.org:5627</a></li>
+                                                                            <li><strong>Tech Stack Used: </strong>HTML, CSS, Bootstrap, JavaScript/jQuery, C# ASP.NET Core MVC with Entity Framework & LINQ, Microsoft SQL Server</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                        
+                                                                <div class="col-lg-12">
+                                                                    <div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">
+                                                                        <h2>Project Overview</h2>
+                                                                        <p>The <strong>Medical Records Management System</strong> is a web-based healthcare platform designed to streamline the complete workflow of managing patient information, medical examination records, laboratory results, and company endorsements across multiple clinic branches. Built to support <strong>inter-branch operations</strong>, the system ensures that authorized users from different locations can securely access, update, and manage records through a centralized online platform.</p>
+                                                                        <p>The system features a secure login authentication module with configurable user types and access controls, ensuring that each user only sees and interacts with functions appropriate to their role. A visually intuitive dashboard with charts and analytics provides real-time insights into service utilization, helping clinics monitor the number of patients availing each service type across all branches.</p>
+                                                                        <p>One of the core components is the <strong>Company Endorsement Registration</strong> module, which automates the approval workflow and sends a soft copy of the approved endorsement directly to the company’s HR through email.</p>
+                                                                        <p>Allied health personnel staff can encode laboratory results and medical examination findings, then automatically generate a soft copy and printable of completed medical examination reports to reduced manual workloads. Also the system sends automated email notifications once their laboratory results or medical examination reports have been released to maintain efficient communication. The system includes also JO (Job Order) record filtering, as well as product list management for services or packages that patients can avail.</p>
+                                                        
+                                                                        <div class="features mt-4">
+                                                                            <h3>Key Features</h3>
+                                                                            <div class="row gy-3">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="500">
+                                                                                        <i class="bi bi-shield-check"></i>
+                                                                                        <h4>Secure Authentication & Access Control</h4>
+                                                                                        <p>Role-based login authentication ensures only authorized users access sensitive medical data.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                                                                                        <i class="bi bi-graph-up"></i>
+                                                                                        <h4>Dashboard & Analytics</h4>
+                                                                                        <p>Real-time charts provide insights on service utilization and patient activity across branches.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-house-door"></i>
+                                                                                        <h4>Inter-Branch Operations</h4>
+                                                                                        <p>Centralized database allows multiple branches to securely view and update records.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="700">
+                                                                                        <i class="bi bi-envelope"></i>
+                                                                                        <h4>Company Endorsement Registration</h4>
+                                                                                        <p>Automates endorsement approvals and sends approved documents to company HR via email.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-people"></i>
+                                                                                        <h4>Patient & Company Information Management</h4>
+                                                                                        <p>Maintains organized and secure records for patients and company information with HR contacts.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-file-earmark-medical"></i>
+                                                                                        <h4>Laboratory & Medical Examination Processing</h4>
+                                                                                        <p>Enables encoding of lab results, medical findings, and automated generation of reports.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-bell"></i>
+                                                                                        <h4>Automated Email Notifications</h4>
+                                                                                        <p>Sends notifications to patients when lab results or medical reports are released.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-funnel"></i>
+                                                                                        <h4>JO (Job Order) Record Filtering</h4>
+                                                                                        <p>Allows efficient tracking and filtering of Job Order records.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <div class="col-md-6">
+                                                                                    <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
+                                                                                        <i class="bi bi-thermometer-half"></i>
+                                                                                        <h4>Procedures & Service List Management</h4>
+                                                                                        <p>Manages clinic services, and procedures that patients can avail.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                </div>
+                                                <div class="modal-footer border-0">
+                                                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save Changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Modal -->
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <!-- /Portfolio Section -->
+
+            <!-- Contact Section -->
+            <section id="section_contact" class="contact section">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Contact</h2>
+                    <!-- <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p> -->
+                </div>
+                <!-- End Section Title -->
+
+                <div class="container">
+
+                    <div class="row g-4 g-lg-5">
+                        <div class="col-lg-5">
+                            <div class="info-box">
+                                <h3 class="mb-5">Contact Info</h3>
+                                <!-- <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis.</p> -->
+
+                                <div class="info-item">
+                                    <div class="icon-box">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h4>Location</h4>
+                                        <p>City of Santa Rosa</p>
+                                        <p>Laguna Region IV-A, PH</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="icon-box">
+                                        <i class="bi bi-telephone"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h4>Phone Number</h4>
+                                        <p>+63 915 642 1470</p>
+                                        <p>&nbsp</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="icon-box">
+                                        <i class="bi bi-envelope"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h4>Email Address</h4>
+                                        <p>jomaicarlon11@gmail.com</p>
+                                        <p>&nbsp</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7">
+                            <div class="contact-form">
+                                <h3>Get In Touch</h3>
+                                <!-- <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis.</p> -->
+
+                                <form action="" method="POST" id="form-contact">
+                                    <div class="row gy-4">
+                                        <div class="col-md-6">
+                                            <input type="text" name="form_name" class="form-control" placeholder="Your Name" required="">
+                                        </div>
+
+                                        <div class="col-md-6 ">
+                                            <input type="email" class="form-control" name="form_email" placeholder="Your Email" required="">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" name="form_code" placeholder="Reference Code" required="" id="txt-ref-code">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" name="form_subject" placeholder="Subject" required="">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <textarea class="form-control" name="form_message" rows="6" placeholder="Message" required=""></textarea>
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn">Send Message</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section><!-- /Contact Section -->
+
+        </main>
+
+        <footer id="footer" class="footer position-relative">
+
+            <div class="container">
+                <div class="copyright text-center ">
+                    <p>© <span>Copyright</span> <strong class="px-1 sitename">JoMyPortfolio</strong> <span>All Rights Reserved</span></p>
+                </div>
+                <div class="credits">
+                    Designed by <a href="https://jomai-jannel-2026-06-27.duckdns.org/_jo_my_portfolio/">Jomai</a>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Scroll Top -->
+        <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <!-- Preloader -->
+        <div id="preloader"></div>
+
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
+        <script src="assets/vendor/aos/aos.js"></script>
+        <script src="assets/vendor/typed.js/typed.umd.js"></script>
+        <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+        <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+        <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+        <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="assets/vendor/jquery/jquery.min.js"></script>
+
+        <!-- Main JS File -->
+        <script src="assets/js/main.js"></script>
+
+    </body>
+
+</html>
