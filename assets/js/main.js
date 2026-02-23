@@ -34,7 +34,7 @@ $(document).ready(function() {
 
                 $.ajax({
                     type: "POST",
-                    url: "xxx.php",
+                    url: "https://swfppxwd2ub7tp4yx4qqdxjkam0dochd.lambda-url.ap-southeast-1.on.aws/",
                     data: $(this).serialize(),
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
