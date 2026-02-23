@@ -33,8 +33,8 @@ $(document).ready(function() {
                 });
 
                 var form_datasss = Object.fromEntries(
-                  new FormData(this).entries()
-              );
+                    new FormData(this).entries()
+                );
 
                 $.ajax({
                     url: "https://swfppxwd2ub7tp4yx4qqdxjkam0dochd.lambda-url.ap-southeast-1.on.aws/",
